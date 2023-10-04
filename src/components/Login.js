@@ -38,8 +38,8 @@ const LoginForm = () => {
       toast.success(response.data.message);
       navigate('/');
       return null; 
-    } catch (error) {
-      console.error(error);
+    } catch (error) {  
+      toast.error(error);
     }
   };
 

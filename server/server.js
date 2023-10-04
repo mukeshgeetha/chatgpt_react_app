@@ -152,6 +152,23 @@ app.get('/get-session-data', (req, res) => {
       }
   });
 
+  const data = [
+    { id: 1, name: 'Item 1' },
+    { id: 2, name: 'Item 2' },
+    // ...other data items
+  ];
+  app.get('/api/data/:id', async (req, res) => {
+    const { id } = req.params;
+  const item = await User.findById(id);
+
+  if (!item) {
+    return res.status(404).json({ message: 'Data not found' });
+  }
+
+  res.json(item);
+  });
+
+
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
