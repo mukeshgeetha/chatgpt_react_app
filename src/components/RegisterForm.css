@@ -9,7 +9,7 @@
   }
   
   .register-form {
-    width: 300px;
+    width: 398px;
     padding: 20px;
     border: 1px solid #ccc;
     background-color: #fff;
@@ -28,7 +28,7 @@
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    width: 89%;
+    width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;

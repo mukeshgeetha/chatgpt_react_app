@@ -1,5 +1,11 @@
 import React, { useState } from 'react';
 import './RegisterForm.css'; // Import CSS styles
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import ReactDOM from 'react-dom';
+import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
+import { ToastContainer } from 'react-toastify';
+
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({
@@ -13,14 +19,36 @@ const RegisterForm = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+ 
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle registration logic here (e.g., send data to a backend API)
-    console.log('Registration Data:', formData);
+
+    if (!formData.username) {
+      toast.error('Please fill the Name');
+      return;
+    }
+    if (!formData.email) {
+      toast.error('Please fill the Email');
+      return;
+    }
+    if (!formData.password) {
+      toast.error('Please fill the Password');
+      return;
+    }
+    try {
+      const response = await axios.post('http://localhost:5000/api/register', formData);
+      console.log(response.data);
+      toast.success(response.data.message);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
+    
     <div className="register-container">
+      <ToastContainer />
       <h2>Register</h2>
       <form onSubmit={handleSubmit} className="register-form">
         <div className="form-group">
@@ -31,7 +59,7 @@ const RegisterForm = () => {
             name="username"
             value={formData.username}
             onChange={handleChange}
-            required
+            
           />
         </div>
         <div className="form-group">
@@ -42,7 +70,7 @@ const RegisterForm = () => {
             name="email"
             value={formData.email}
             onChange={handleChange}
-            required
+            
           />
         </div>
         <div className="form-group">
@@ -53,7 +81,7 @@ const RegisterForm = () => {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            required
+            
           />
         </div>
         <button type="submit" className="register-button">

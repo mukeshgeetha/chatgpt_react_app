@@ -1,0 +1,13 @@
+.fulldiv{
+    display: flex;
+    list-style: none;
+    padding: 10px;
+    background-color: aqua;
+}
+li{
+    padding: 10px;
+}
+#username{
+    float: right;
+    margin-left: 1100px;
+}
