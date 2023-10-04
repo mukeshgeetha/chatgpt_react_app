@@ -4,6 +4,7 @@ import  { useState } from 'react';
 import { useEffect } from 'react';
 import Home from './Home';
 import './TableStyle.css';
+import { Link } from 'react-router-dom';
 
 export default function ListData() {
   let idCounter = 1; // Initialize the ID counter
@@ -37,6 +38,7 @@ export default function ListData() {
             <th>ID</th>
             <th>Name</th>
             <th>Description</th>
+            <th>Action</th>
           </tr>
         </thead>
         <tbody>
@@ -45,6 +47,7 @@ export default function ListData() {
               <td>{idCounter++}</td>
               <td>{item.username}</td>
               <td>{item.email}</td>
+              <td><Link to={`/edit/${item._id}`}>Edit</Link></td>
             </tr>
           ))}
         </tbody>

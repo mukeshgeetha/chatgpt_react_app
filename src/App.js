@@ -9,6 +9,7 @@ import Login from './components/Login';
 import RegisterForm from './components/RegisterForm';
 import LandingPage from './components/LandingPage';
 import ListData from './components/ListData';
+import EditUser from './components/EditUser';
 
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/listdata" element={<ListData />} />
+      <Route path="/edit/:id" element={<EditUser />} />
     </Routes>
   </Router>
   
