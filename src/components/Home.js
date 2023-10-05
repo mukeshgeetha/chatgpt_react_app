@@ -42,7 +42,7 @@ console.log(usernamedata);
       console.error(error);
     }
   };
-
+  const condition = true; 
   return (
 
     
@@ -56,14 +56,15 @@ console.log(usernamedata);
           <Link to="/register">Register</Link>
         </li>
         <li>
+          <Link to="/listdata">list</Link>
+        </li>
+        <li>
           <Link to="/about">About</Link>
         </li>
         <li>
           <Link to="/contact">Contact</Link>
         </li>
-        <li>
-          <Link to="/listdata">list</Link>
-        </li>
+        
         <li id='username'>
         <Dropdown>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">
@@ -77,7 +78,7 @@ console.log(usernamedata);
       </Dropdown.Menu>
     </Dropdown>
         </li>
-        <LandingPage/>
+        {/* <LandingPage/> */}
     </div>
   
   

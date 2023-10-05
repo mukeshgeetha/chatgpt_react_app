@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import './RegisterForm.css'; // Import CSS styles
 import axios from 'axios';
-import { toast } from 'react-toastify';
+
 import ReactDOM from 'react-dom';
 import 'react-toastify/dist/ReactToastify.css'; // Import the CSS
 import { ToastContainer } from 'react-toastify';
-
+import { toast } from 'react-toastify';
 
 const RegisterForm = () => {
   const [formData, setFormData] = useState({

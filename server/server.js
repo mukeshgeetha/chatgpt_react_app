@@ -6,6 +6,7 @@ const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
+const transporter = require('../src/components/emailSender');
 
 
 const app = express();
@@ -58,7 +59,11 @@ app.post('/api/register', async (req, res) => {
 
     const { username, email, password } = req.body;
 
-    // Hash the password before saving it
+    const user = await User.findOne({ email });
+    if (user) {
+      res.json({ message: 'Email already exists' });
+    } else {
+      // Hash the password before saving it
     const hashedPassword = await bcrypt.hash(password, 10); // 10 is the salt rounds
 
     const newUser = new User({
@@ -68,6 +73,8 @@ app.post('/api/register', async (req, res) => {
     });
     await newUser.save();
     res.status(201).json({ message: 'Registration successful...!' });
+    }
+   
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Registration failed' });
@@ -191,6 +198,27 @@ app.delete('/api/delete/:id', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+
+app.post('/api/send-email', async (req, res) => {
+  try {
+    const { to, subject, text } = req.body;
+
+    const mailOptions = {
+      from: 'pcbs@pcnl.in',
+      to,
+      subject,
+      text,
+    };
+
+    await transporter.sendMail(mailOptions);
+    res.json({ message: 'Email sent successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Server Error' });
   }
 });
 

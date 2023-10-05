@@ -10,6 +10,7 @@ import RegisterForm from './components/RegisterForm';
 import LandingPage from './components/LandingPage';
 import ListData from './components/ListData';
 import EditUser from './components/EditUser';
+import UserRegistrationForm from './components/UserRegistrationForm';
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Route path="/landing" element={<LandingPage />} />
       <Route path="/listdata" element={<ListData />} />
       <Route path="/edit/:id" element={<EditUser />} />
+      <Route path="/add/user" element={<UserRegistrationForm />} />
     </Routes>
   </Router>
   

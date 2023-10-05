@@ -5,6 +5,10 @@ import { useEffect } from 'react';
 import Home from './Home';
 import './TableStyle.css';
 import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
+
+
 
 export default function ListData() {
   let idCounter = 1; // Initialize the ID counter
@@ -40,6 +44,24 @@ export default function ListData() {
       });
   };
 
+  const [emailData, setEmailData] = useState({
+    to: 'mukeshgeetha46@gmail.com',
+    subject: 'test mail',
+    text: 'test mail',
+  });
+  console.log(emailData);
+  const handleClick = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post('http://localhost:5000/api/send-email', emailData);
+      alert('Email sent successfully');
+      setEmailData({ to: '', subject: '', text: '' });
+    } catch (error) {
+      console.error(error);
+      alert('Failed to send email');
+    }
+  };
 
 // Define your inline CSS styles as a JavaScript object
 const buttonStyle = {
@@ -61,10 +83,23 @@ const deleteStyle = {
 const linkStyle = {
   color: 'white',
 }
+
+const adduser = {
+  backgroundColor: 'green',
+  color: 'white',
+  padding: '8px 15px',
+  borderRadius: '5px',
+  cursor: 'pointer',
+  float:'right',
+}
+
+const whiteText = {
+  color: 'white',
+};
   return (
     <div>
       <Home/>
-      
+      <button style={adduser}><Link to={'/add/user'} style={whiteText}>Add User</Link></button>
       <table style={style}>
         <thead>
           <tr>
@@ -81,7 +116,11 @@ const linkStyle = {
               <td>{item.username}</td>
               <td>{item.email}</td>
               <td> <button style={buttonStyle}><Link style={linkStyle}  to={`/edit/${item._id}`}>Edit</Link></button>&nbsp;
-              <button style={deleteStyle} onClick={() => handleDelete(item._id)}>Delete</button>
+              <button style={deleteStyle} onClick={() => handleDelete(item._id)}>Delete</button>&nbsp;
+              <button onClick={handleClick} className="send-mail-button">
+      <FontAwesomeIcon icon={faEnvelope} className="icon" />
+      Send Mail
+    </button>
               </td>
             </tr>
           ))}
