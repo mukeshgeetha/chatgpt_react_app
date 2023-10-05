@@ -8,7 +8,10 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 
+import { ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 
+import { useNavigate } from 'react-router-dom';
 
 export default function ListData() {
   let idCounter = 1; // Initialize the ID counter
@@ -48,7 +51,8 @@ export default function ListData() {
   const sendmail = async (email) => {
     try {
       await axios.post(`http://localhost:5000/api/send-email/${email}`, emailData);
-      alert('Email sent successfully');
+      toast.success("Email sent successfully");
+      
       setEmailData({ to: '', subject: '', text: '' });
     } catch (error) {
       console.error(error);
@@ -99,6 +103,7 @@ const whiteText = {
   return (
     <div>
       <Home/>
+      <ToastContainer />
       <button style={adduser}><Link to={'/add/user'} style={whiteText}>Add User</Link></button>
       <table style={style}>
         <thead>
