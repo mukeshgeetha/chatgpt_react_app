@@ -5,7 +5,7 @@ const cors = require('cors');
 const bcrypt = require('bcrypt');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
-
+const router = express.Router();
 
 
 const app = express();
@@ -151,6 +151,48 @@ app.get('/get-session-data', (req, res) => {
         res.status(500).json({ message: 'Server error' });
       }
   });
+
+
+  app.get('/api/Userdata/:id', async (req, res) => {
+    try {
+        const id = req.params.id;
+        const items = await User.findById(id); // Retrieve items from the database
+         res.json(items);
+        
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+  });
+
+
+// Update an item by ID
+app.put('/items/:id', async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const updatedItem = await User.findByIdAndUpdate(
+      req.params.id,
+      { username, email },
+      { new: true }
+    );
+    res.json(updatedItem);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
+
+
+// Delete an item by ID
+app.delete('/api/delete/:id', async (req, res) => {
+  try {
+    await User.findByIdAndRemove(req.params.id);
+    res.json({ message: 'Item deleted successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server Error' });
+  }
+});
 
 
 app.listen(PORT, () => {

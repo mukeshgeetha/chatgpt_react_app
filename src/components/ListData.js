@@ -27,7 +27,40 @@ export default function ListData() {
   };
 
 
+  const handleDelete = (itemId) => {
+    // Send a DELETE request to the server to delete the item
+    axios.delete(`http://localhost:5000/api/delete/${itemId}`)
+      .then((response) => {
+        console.log(response.data);
+        // Update the UI by removing the deleted item from the local data
+        setData(data.filter(item => item._id !== itemId));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
+
+// Define your inline CSS styles as a JavaScript object
+const buttonStyle = {
+  backgroundColor: 'blue',
+  color: 'white',
+  padding: '8px 15px',
+  borderRadius: '5px',
+  cursor: 'pointer',
+};
+
+const deleteStyle = {
+  backgroundColor: 'red',
+  color: 'white',
+  padding: '8px 15px',
+  borderRadius: '5px',
+  cursor: 'pointer',
+}
+
+const linkStyle = {
+  color: 'white',
+}
   return (
     <div>
       <Home/>
@@ -47,7 +80,9 @@ export default function ListData() {
               <td>{idCounter++}</td>
               <td>{item.username}</td>
               <td>{item.email}</td>
-              <td><Link to={`/edit/${item._id}`}>Edit</Link></td>
+              <td> <button style={buttonStyle}><Link style={linkStyle}  to={`/edit/${item._id}`}>Edit</Link></button>&nbsp;
+              <button style={deleteStyle} onClick={() => handleDelete(item._id)}>Delete</button>
+              </td>
             </tr>
           ))}
         </tbody>
