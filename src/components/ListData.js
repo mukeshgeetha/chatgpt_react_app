@@ -100,6 +100,22 @@ const adduser = {
 const whiteText = {
   color: 'white',
 };
+
+const generatePDF = () => {
+  axios.get('http://localhost:5000/generate-pdf', { responseType: 'blob' })
+    .then((response) => {
+      // Create a URL for the blob response
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', 'example.pdf');
+      document.body.appendChild(link);
+      link.click();
+    })
+    .catch((error) => {
+      console.error('Error generating PDF:', error);
+    });
+};
   return (
     <div>
       <Home/>
@@ -125,7 +141,8 @@ const whiteText = {
               <button  onClick={() => sendmail(item.email)} className="send-mail-button">
       <FontAwesomeIcon icon={faEnvelope} className="icon" />
       Send Mail
-    </button>
+    </button>&nbsp;
+    <button onClick={generatePDF}>Generate PDF</button>
               </td>
             </tr>
           ))}

@@ -7,6 +7,9 @@ const session = require('express-session');
 const cookieParser = require('cookie-parser');
 const router = express.Router();
 const transporter = require('../src/components/emailSender');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
+const puppeteer = require('puppeteer');
 
 
 const app = express();
@@ -222,6 +225,23 @@ app.post('/api/send-email/:email', async (req, res) => {
   }
 });
 
+app.get('/generate-pdf', (req, res) => {
+  // Create a new PDF document
+  const doc = new PDFDocument();
+
+  // Set the response headers to indicate that it's a PDF
+  res.setHeader('Content-Type', 'application/pdf');
+  res.setHeader('Content-Disposition', 'inline; filename="example.pdf"');
+
+  // Pipe the PDF to the response stream
+  doc.pipe(res);
+
+  // Add content to the PDF
+  doc.text('Hello, world!');
+
+  // End the PDF generation
+  doc.end();
+});
 
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
