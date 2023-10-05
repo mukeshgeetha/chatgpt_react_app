@@ -44,17 +44,10 @@ export default function ListData() {
       });
   };
 
-  const [emailData, setEmailData] = useState({
-    to: 'mukeshgeetha46@gmail.com',
-    subject: 'test mail',
-    text: 'test mail',
-  });
-  console.log(emailData);
-  const handleClick = async (e) => {
-    e.preventDefault();
 
+  const sendmail = async (email) => {
     try {
-      await axios.post('http://localhost:5000/api/send-email', emailData);
+      await axios.post(`http://localhost:5000/api/send-email/${email}`, emailData);
       alert('Email sent successfully');
       setEmailData({ to: '', subject: '', text: '' });
     } catch (error) {
@@ -62,6 +55,13 @@ export default function ListData() {
       alert('Failed to send email');
     }
   };
+
+  const [emailData, setEmailData] = useState({
+    subject: 'test mail',
+    text: 'test mail',
+  });
+  console.log(emailData);
+ 
 
 // Define your inline CSS styles as a JavaScript object
 const buttonStyle = {
@@ -117,7 +117,7 @@ const whiteText = {
               <td>{item.email}</td>
               <td> <button style={buttonStyle}><Link style={linkStyle}  to={`/edit/${item._id}`}>Edit</Link></button>&nbsp;
               <button style={deleteStyle} onClick={() => handleDelete(item._id)}>Delete</button>&nbsp;
-              <button onClick={handleClick} className="send-mail-button">
+              <button  onClick={() => sendmail(item.email)} className="send-mail-button">
       <FontAwesomeIcon icon={faEnvelope} className="icon" />
       Send Mail
     </button>

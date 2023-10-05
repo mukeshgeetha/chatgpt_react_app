@@ -203,13 +203,13 @@ app.delete('/api/delete/:id', async (req, res) => {
 
 
 
-app.post('/api/send-email', async (req, res) => {
+app.post('/api/send-email/:email', async (req, res) => {
   try {
-    const { to, subject, text } = req.body;
+    const { subject, text } = req.body;
 
     const mailOptions = {
       from: 'pcbs@pcnl.in',
-      to,
+      to : req.params.email,
       subject,
       text,
     };
