@@ -64,7 +64,9 @@ console.log(usernamedata);
         <li>
           <Link to="/contact">Contact</Link>
         </li>
-        
+        <li>
+          <Link to="/add/product">Add Product</Link>
+        </li>
         <li id='username'>
         <Dropdown>
       <Dropdown.Toggle variant="primary" id="dropdown-basic">

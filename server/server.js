@@ -10,7 +10,8 @@ const transporter = require('../src/components/emailSender');
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 const puppeteer = require('puppeteer');
-
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -54,6 +55,46 @@ const userSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
+
+
+// Create a schema for image metadata
+const imageSchema = new mongoose.Schema({
+  username: String,
+  email: String,
+  filename: String,
+});
+
+const Image = mongoose.model('Image', imageSchema);
+
+
+
+// Set up multer for image upload
+const storage = multer.diskStorage({
+  destination: './uploads/',
+  filename: (req, file, cb) => {
+    cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage });
+
+
+
+// API endpoint for image upload
+app.post('/upload', upload.single('image'), async (req, res) => {
+  try {
+    const { username, email } = req.body;
+    const image = new Image({ username, email, filename: req.file.filename });
+    await image.save();
+    res.status(200).json({ message: 'Image uploaded successfully' });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error uploading image' });
+  }
+});
+
+// Serve images statically from the 'uploads' folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Create a route to handle user registration
 app.post('/api/register', async (req, res) => {
